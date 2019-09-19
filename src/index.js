@@ -8,19 +8,28 @@ function coderIndex() {
     fetch(endPoint)
         .then(res => res.json())
         .then (json => {
+            //console.log(json)
             json.forEach(function(coder){
                 const newCoder = new Coder(coder)
+                //console.log(newCoder)
                 document.getElementById('coders-list').innerHTML += newCoder.formatCoder()
             })
         })
 }
 
-function showCoder() {
+ function showCoder() {
     alert('hey!')
-}
+    const endPoint = `http://localhost:3000/api/v1/coders/dataset.id`
+    fetch(endPoint)
+        .then(res =>res.json())
+        .then(json => {
+            console.log(json)
+        })
+ }
 
 class Coder {
     constructor(coder) {
+        this.id = coder.id
         this.name = coder.name;
         this.language = coder.language;
         this.hackathons = coder.hackathons;
@@ -28,7 +37,7 @@ class Coder {
 
     formatCoder(){
         const formattedCoder =
-            `<ul> Name: <a href='#' onclick='showCoder()' > ${this.name} </a> - Language: ${this.language}</ul>`
+            `<ul> Name: <a href='#' onclick='showCoder()' data-id=${this.id}> ${this.name} </a> - Language: ${this.language} </ul>`
         return formattedCoder
     }
 
@@ -49,8 +58,11 @@ class Coder {
 
 
 //NEXT STEPS
-//1) tansform the name on the index to be a link that would trigger the function showCoder() (line 31 in progress)
-//2) compose showCoder() to fetch a coder instance and pass the json to our constructor to make a js object which we would then
+
+//1) compose showCoder() to fetch a coder instance and pass the json to our constructor to make a js object which we would then
 // call formatCoderDetails() on.
-//3) build a show view
-//4) on that show view, also render the many hackathons for the has_many requirement
+        //need to get dataset.id on line 22 to actually be dynamic
+
+        //note: we need to check our routes
+//2) build a show view
+//3) on that show view, also render the many hackathons for the has_many requirement
